@@ -1,4 +1,5 @@
 function love.load()
+
     -- load the sprites
     sprites = {}
     sprites.background = love.graphics.newImage('sprites/background.png')
@@ -6,16 +7,28 @@ function love.load()
     sprites.bullet = love.graphics.newImage('sprites/bullet.png')
     sprites.zombie = love.graphics.newImage('sprites/zombie.png')
 
-    -- load the player and config
+    -- player config
     player = {}
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
-    
+    player.speed = 3
 end
 
 
 function love.update(dt)
-
+    -- adding player movement
+    if love.keyboard.isDown("d") then
+        player.x = player.x + player.speed
+    end
+    if love.keyboard.isDown("a") then
+        player.x = player.x - player.speed
+    end
+    if love.keyboard.isDown("s") then
+        player.y = player.y + player.speed
+    end
+    if love.keyboard.isDown("w") then
+        player.y = player.y - player.speed
+    end
 end
 
 
