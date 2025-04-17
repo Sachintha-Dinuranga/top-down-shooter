@@ -12,6 +12,9 @@ function love.load()
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
     player.speed = 180 -- 180 because frame rates 1/60 * 180 = 3
+
+    -- rotation value
+    tempRotation = 0
 end
 
 
@@ -29,6 +32,8 @@ function love.update(dt)
     if love.keyboard.isDown("w") then
         player.y = player.y - player.speed * dt
     end
+
+    tempRotation = tempRotation + 0.01
 end
 
 
@@ -37,5 +42,11 @@ function love.draw()
     love.graphics.draw(sprites.background, 0, 0)
 
     -- draw the player sprite
-    love.graphics.draw(sprites.player, player.x, player.y)
+    love.graphics.draw(sprites.player, player.x, player.y, tempRotation, nil, nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
 end
+
+
+
+
+-- note
+-- get player sprite size half to center offset  
