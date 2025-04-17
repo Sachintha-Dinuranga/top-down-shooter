@@ -11,23 +11,23 @@ function love.load()
     player = {}
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
-    player.speed = 3
+    player.speed = 180 -- 180 because frame rates 1/60 * 180 = 3
 end
 
 
 function love.update(dt)
     -- adding player movement
     if love.keyboard.isDown("d") then
-        player.x = player.x + player.speed
+        player.x = player.x + player.speed * dt
     end
     if love.keyboard.isDown("a") then
-        player.x = player.x - player.speed
+        player.x = player.x - player.speed * dt
     end
     if love.keyboard.isDown("s") then
-        player.y = player.y + player.speed
+        player.y = player.y + player.speed * dt
     end
     if love.keyboard.isDown("w") then
-        player.y = player.y - player.speed
+        player.y = player.y - player.speed * dt
     end
 end
 
