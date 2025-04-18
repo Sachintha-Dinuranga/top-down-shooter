@@ -45,7 +45,7 @@ function love.draw()
 
     -- loop through each zombie and draw them
     for i, z in ipairs(zombies) do 
-        love.graphics.draw(sprites.zombie, z.x, z.y)
+        love.graphics.draw(sprites.zombie, z.x, z.y, zombiePlayerAngle(z), nil, nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
     end
 end
 
@@ -62,7 +62,12 @@ function playerMouseAngle()
 end
 
 -- note
--- get player sprite size half to center offset  
+-- get player sprite size half to center offset 
+
+ -- find the angle between player and the zombie
+function zombiePlayerAngle(enemy) 
+    return math.atan2(player.y - enemy.y, player.x - enemy.x)
+end
 
 function spawnZombie()
     -- table for store individual zombie
