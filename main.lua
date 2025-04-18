@@ -16,6 +16,9 @@ function love.load()
     -- table for store multiple zombies
     zombies = {}
 
+    -- table for store all the bullet objects
+    bullets = {}
+
 end
 
 
@@ -45,6 +48,12 @@ function love.update(dt)
             end
         end
     end
+
+    -- bullet movement
+    for i, b in ipairs(bullets) do
+        b.x = b.x + (math.cos(b.direction) * b.speed * dt)
+        b.y = b.y + (math.sin(b.direction) * b.speed * dt)
+    end
 end
 
 
@@ -59,12 +68,24 @@ function love.draw()
     for i, z in ipairs(zombies) do 
         love.graphics.draw(sprites.zombie, z.x, z.y, zombiePlayerAngle(z), nil, nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
     end
+
+    -- loop through each bullet and draw them
+    for i, b in ipairs(bullets) do
+        love.graphics.draw(sprites.bullet, b.x, b.y)
+    end
 end
 
 -- function to spawn zombies when spacebar is pressed
 function love.keypressed(key)
     if key == "space" then
         spawnZombie()
+    end
+end
+
+-- shooting bullets
+function love.mousepressed(x, y, button)
+    if button == 1 then
+        spawnBullet()
     end
 end
 
@@ -90,6 +111,16 @@ function spawnZombie()
     
     -- add single zombie to the zombies table
     table.insert(zombies, zombie)
+end
+
+-- function for spawn bullets
+function spawnBullet()
+    local bullet = {}
+    bullet.x = player.x
+    bullet.y = player.y
+    bullet.speed = 500
+    bullet.direction = playerMouseAngle()
+    table.insert(bullets, bullet)
 end
 
 -- calculate distance between player and the zombie
