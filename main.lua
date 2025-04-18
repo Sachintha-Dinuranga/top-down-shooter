@@ -13,8 +13,9 @@ function love.load()
     player.y = love.graphics.getHeight() / 2
     player.speed = 180 -- 180 because frame rates 1/60 * 180 = 3
 
-    -- rotation value
-    tempRotation = 0
+    -- table for store multiple zombies
+    zombies = {}
+
 end
 
 
@@ -32,8 +33,6 @@ function love.update(dt)
     if love.keyboard.isDown("w") then
         player.y = player.y - player.speed * dt
     end
-
-    tempRotation = tempRotation + 0.01
 end
 
 
@@ -43,6 +42,18 @@ function love.draw()
 
     -- draw the player sprite
     love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil, nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
+
+    -- loop through each zombie and draw them
+    for i, z in ipairs(zombies) do 
+        love.graphics.draw(sprites.zombie, z.x, z.y)
+    end
+end
+
+-- function to spawn zombies when spacebar is pressed
+function love.keypressed(key)
+    if key == "space" then
+        spawnZombie()
+    end
 end
 
 -- calculate angle between mouse and the sprite(radiant)
@@ -50,6 +61,16 @@ function playerMouseAngle()
     return math.atan2(player.y - love.mouse.getY(), player.x - love.mouse.getX()) + math.pi
 end
 
- 
 -- note
 -- get player sprite size half to center offset  
+
+function spawnZombie()
+    -- table for store individual zombie
+    local zombie = {}
+    zombie.x = math.random(0, love.graphics.getWidth())
+    zombie.y = math.random(0, love.graphics.getHeight())
+    zombie.speed = 100
+    
+    -- add single zombie to the zombies table
+    table.insert(zombies, zombie)
+end
