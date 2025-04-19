@@ -19,6 +19,10 @@ function love.load()
     -- table for store all the bullet objects
     bullets = {}
 
+    --game state
+    gameState = 2
+    maxTime = 2
+    timer = maxTime
 end
 
 
@@ -45,6 +49,7 @@ function love.update(dt)
         if distanceBetween(z.x, z.y, player.x, player.y) < 30 then
             for i , z in ipairs(zombies) do
                 zombies[i] = nil
+                gameState = 1
             end
         end
     end
@@ -88,6 +93,16 @@ function love.update(dt)
         local b = bullets[i]
         if b.dead == true then
             table.remove(bullets, i)
+        end
+    end
+
+    -- enemy spawn timer
+    if gameState == 2 then
+        timer = timer - dt
+        if timer <= 0 then
+            spawnZombie()
+            maxTime = 0.95 * maxTime
+            timer = maxTime
         end
     end
 end
@@ -143,7 +158,7 @@ function spawnZombie()
     local zombie = {}
     zombie.x = math.random(0, love.graphics.getWidth())
     zombie.y = math.random(0, love.graphics.getHeight())
-    zombie.speed = 140
+    zombie.speed = 105
     zombie.dead = false
     -- add single zombie to the zombies table
     table.insert(zombies, zombie)
